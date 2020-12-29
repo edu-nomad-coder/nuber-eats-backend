@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { RestaurantsModule } from './restaurants/restaurants.module';
@@ -17,6 +18,10 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
       database: "nuber-eats",
       synchronize: true, // TypeORM 이 데이터베이스에 연결할 때 DB 를 프로젝트의 모듈 상태로 마이그레이션 한다는 뜻
       logging: true,
+    }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: process.env.NODE_ENV === 'dev' ? '.dev.env' : '.test.env',
     }),
     RestaurantsModule,
   ],
